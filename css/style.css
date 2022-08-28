@@ -4,9 +4,90 @@
   padding: 0;
 }
 
-body{
+body {
+  max-height: 100vh;
   min-width: 480px;
   min-height: 100vh;
   background: url("../assets/home.png") center/cover;
+
+  display: flex;
+  flex-direction: row;
 }
 
+.ancients-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  min-width: 40%;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.ancient {
+  background-position: 50%;
+  height: 260px;
+  width: 200px;
+  cursor: pointer;
+}
+
+.ancient:active {
+  border: 0;
+  outline: 0;
+  transform: scale(1.1);
+}
+
+.ancient-active {
+  border: 4px solid red;
+}
+
+.lavel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.lavel-display {
+  display: none;
+}
+
+.button-lavel {
+  border-radius: 8px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.button-lavel:active {
+  border: 0;
+  outline: 0;
+  transform: scale(1.1);
+}
+
+.button-lavel-active {
+  border: 4px solid red;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-deck{
+  border-radius: 8px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.card-deck:hover{
+  background-color: red;
+  border: 4px solid red;
+  color: white;
+}
+
+.card-deck-display {
+  display: none;
+}
