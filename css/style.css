@@ -91,3 +91,44 @@ body {
 .card-deck-display {
   display: none;
 }
+
+.stage-text{
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.dots{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.dots-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.green{
+  background-color: green;
+}
+
+.brown{
+  background-color: brown;
+}
+
+.blue{
+  background-color: blue
+}
+
+.deck{
+  background-position: 50%;
+  height: 260px;
+  width: 200px;
+  cursor: pointer;
+}
+
+.display{
+  display: none;
+}

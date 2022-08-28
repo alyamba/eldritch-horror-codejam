@@ -2,6 +2,9 @@ const ancient = document.querySelectorAll(".ancient");
 const lavel = document.querySelector(".lavel");
 const buttonLavel = document.querySelectorAll(".button-lavel")
 const cardDeckButton = document.querySelector(".card-deck");
+const cardCounter = document.querySelector(".card-counter");
+const deck = document.querySelector(".deck");
+
 
 let ancientActive;
 
@@ -57,3 +60,11 @@ buttonLavel.forEach((item) =>
 function cardDeck() {
   cardDeckButton.classList.remove("card-deck-display");
 }
+
+//Данные карт
+function deckData() {
+  cardDeckButton.classList.add("card-deck-display");
+  cardCounter.classList.remove("display");
+  deck.classList.remove("display");
+}
+cardDeckButton.addEventListener('click', deckData);
