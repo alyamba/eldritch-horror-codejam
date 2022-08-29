@@ -30,6 +30,7 @@ body {
   height: 260px;
   width: 200px;
   cursor: pointer;
+  border-radius: 8px;
 }
 
 .ancient:active {
@@ -71,8 +72,9 @@ body {
 
 .cards {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
 }
 
 .card-deck {
@@ -127,12 +129,22 @@ body {
 }
 
 .deck {
+  margin: 5px;
   background-size: cover;
   height: 190px;
   width: 130px;
   cursor: pointer;
+  border-radius: 8px;
 }
 
 .display {
   display: none;
+}
+
+.last-card {
+  margin: 5px;
+  background-size: cover;
+  height: 190px;
+  width: 130px;
+  border-radius: 8px;
 }

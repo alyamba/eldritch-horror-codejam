@@ -17,6 +17,8 @@ const thirdGreen = document.querySelector(".third-green");
 const thirdBrown = document.querySelector(".third-brown");
 const thirdBlue = document.querySelector(".third-blue");
 
+const lastCard = document.querySelector(".last-card");
+
 const cardsData = [
   {
     id: "blue1",
@@ -386,6 +388,9 @@ function cardDeck() {
   cardDeckButton.classList.remove("card-deck-display");
 }
 
+let result = {};
+const regularCards = cardsData.filter((data) => data.difficulty === "normal");
+
 //Данные карт
 function deckData() {
   cardDeckButton.classList.add("card-deck-display");
@@ -445,11 +450,7 @@ function deckData() {
     thirdBlue.textContent = 0;
   }
 
-  let result = {};
-
-  const regularCards = cardsData.filter((data) => data.difficulty === 'normal');
-
-  if(buttonActive === 'super-easy') {
+  if (buttonActive === "super-easy") {
     result = cardsData.filter((data) => data.difficulty === "easy");
   }
 
@@ -457,22 +458,69 @@ function deckData() {
     result = cardsData.filter((data) => data.difficulty !== "hard");
   }
 
-  if(buttonActive === 'normal') {
+  if (buttonActive === "normal") {
     result = cardsData;
   }
 
-  if (buttonActive === 'hard') {
-    result = cardsData.filter((data) => data.difficulty !== 'easy');
+  if (buttonActive === "hard") {
+    result = cardsData.filter((data) => data.difficulty !== "easy");
   }
 
-  if(buttonActive === 'super-hard') {
+  if (buttonActive === "super-hard") {
     result = cardsData.filter((data) => data.difficulty === "hard");
   }
 
   console.log(result);
+
+  const allGreen =
+    parseInt(firstGreen.textContent) +
+    parseInt(secondGreen.textContent) +
+    parseInt(thirdGreen.textContent);
+  const allBrown =
+    parseInt(firstBrown.textContent) +
+    parseInt(secondBrown.textContent) +
+    parseInt(thirdBrown.textContent);
+  const allBlue =
+    parseInt(firstBlue.textContent) +
+    parseInt(secondBlue.textContent) +
+    parseInt(thirdBlue.textContent);
+
+  console.log(allGreen, allBrown, allBlue);
 }
 cardDeckButton.addEventListener("click", deckData);
 
-function puk() {}
+function getCard(cardDeck, stepColor) {
+  let cardNumber = Math.floor(Math.random() * (cardDeck.length - 0) + 0);
+  console.log(cardDeck[cardNumber].cardFace);
+  lastCard.style.backgroundImage = `url('${cardDeck[cardNumber].cardFace}')`;
+  stepColor.textContent = stepColor.textContent - 1;
+}
 
-deck.addEventListener("click", puk);
+function displayCard() {
+  const coloredGreen = result.filter((card) => card.color === "green");
+  const coloredBrown = result.filter((card) => card.color === "brown");
+  const coloredBlue = result.filter((card) => card.color === "blue");
+  if (firstGreen.textContent > 0) {
+    getCard(coloredGreen, firstGreen);
+  } else if (firstBrown.textContent > 0) {
+    getCard(coloredBrown, firstBrown);
+  } else if (firstBlue.textContent > 0) {
+    getCard(coloredBlue, firstBlue);
+  } else if (secondGreen.textContent > 0) {
+    getCard(coloredGreen, secondGreen);
+  } else if (secondBrown.textContent > 0) {
+    getCard(coloredBrown, secondBrown);
+  } else if (secondBlue.textContent > 0) {
+    getCard(coloredBlue, secondBlue);
+  } else if (thirdGreen.textContent > 0) {
+    getCard(coloredGreen, thirdGreen);
+  } else if (thirdBrown.textContent > 0) {
+    getCard(coloredBrown, thirdBrown);
+  } else if (thirdBlue.textContent > 0) {
+    getCard(coloredBlue, thirdBlue);
+  } else {
+    let data = confirm("Колода закончена");
+    console.log(data);
+  }
+}
+deck.addEventListener("click", displayCard);
