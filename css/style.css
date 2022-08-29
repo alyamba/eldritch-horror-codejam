@@ -75,14 +75,14 @@ body {
   justify-content: center;
 }
 
-.card-deck{
+.card-deck {
   border-radius: 8px;
   padding: 5px;
   margin: 5px;
   cursor: pointer;
 }
 
-.card-deck:hover{
+.card-deck:hover {
   background-color: red;
   border: 4px solid red;
   color: white;
@@ -92,43 +92,47 @@ body {
   display: none;
 }
 
-.stage-text{
+.stage-text {
   color: white;
   display: flex;
   justify-content: center;
 }
 
-.dots{
-  width: 20px;
-  height: 20px;
+.dots {
+  margin: 5px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.dots-container{
+.dots-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
 
-.green{
+.green {
   background-color: green;
 }
 
-.brown{
+.brown {
   background-color: brown;
 }
 
-.blue{
-  background-color: blue
+.blue {
+  background-color: blue;
 }
 
-.deck{
-  background-position: 50%;
-  height: 260px;
-  width: 200px;
+.deck {
+  background-size: cover;
+  height: 190px;
+  width: 130px;
   cursor: pointer;
 }
 
-.display{
+.display {
   display: none;
 }
