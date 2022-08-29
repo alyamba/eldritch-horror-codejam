@@ -26,6 +26,9 @@ function clickAncient(item) {
   if (ancientActive) {
     ancientActive = item.alt;
     ancient.forEach((item) => item.classList.remove("ancient-active"));
+    cardDeckButton.classList.add("card-deck-display");
+    cardCounter.classList.add("display");
+    deck.classList.add("display");
     item.classList.add("active");
     item.classList.add("ancient-active");
   } else {
@@ -55,6 +58,8 @@ function clickLavel(item) {
     buttonLavel.forEach((item) => item.classList.remove("button-lavel-active"));
     item.classList.add("active");
     item.classList.add("button-lavel-active");
+    cardCounter.classList.add("display");
+    deck.classList.add("display");
   } else {
     buttonActive = item.id;
     item.classList.add("active");
