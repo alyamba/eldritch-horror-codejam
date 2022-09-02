@@ -1,6 +1,6 @@
 const ancient = document.querySelectorAll(".ancient");
 const lavel = document.querySelector(".lavel");
-const buttonLavel = document.querySelectorAll(".button-lavel");
+const buttonLevel = document.querySelectorAll(".button-lavel");
 const cardDeckButton = document.querySelector(".card-deck");
 const cardCounter = document.querySelector(".card-counter");
 const deck = document.querySelector(".deck");
@@ -332,8 +332,7 @@ let ancientActive;
 
 //Выбирает древнего
 function clickAncient(item) {
-  console.log(item.alt);
-  buttonLavel.forEach((item) => item.classList.remove("button-lavel-active"));
+  buttonLevel.forEach((item) => item.classList.remove("button-lavel-active"));
   if (ancientActive) {
     ancientActive = item.alt;
     ancient.forEach((item) => item.classList.remove("ancient-active"));
@@ -342,6 +341,7 @@ function clickAncient(item) {
     deck.classList.add("display");
     item.classList.add("active");
     item.classList.add("ancient-active");
+    lastCard.classList.add("display");
   } else {
     ancientActive = item.alt;
     item.classList.add("active");
@@ -363,14 +363,14 @@ let buttonActive;
 
 //Выбирает уровень
 function clickLavel(item) {
-  console.log(item.id);
   if (buttonActive) {
     buttonActive = item.id;
-    buttonLavel.forEach((item) => item.classList.remove("button-lavel-active"));
+    buttonLevel.forEach((item) => item.classList.remove("button-lavel-active"));
     item.classList.add("active");
     item.classList.add("button-lavel-active");
     cardCounter.classList.add("display");
     deck.classList.add("display");
+    lastCard.classList.add("display");
   } else {
     buttonActive = item.id;
     item.classList.add("active");
@@ -379,16 +379,18 @@ function clickLavel(item) {
 
   cardDeck();
 }
-buttonLavel.forEach((item) =>
+buttonLevel.forEach((item) =>
   item.addEventListener("click", () => clickLavel(item))
 );
 
-//Кнопка замешать колоду
+//Показ кнопки замешать колоду
 function cardDeck() {
   cardDeckButton.classList.remove("card-deck-display");
 }
 
-let result = {};
+let result = [];
+let usedCardNumber = [];
+let usedAdditionalCardNumber = [];
 const regularCards = cardsData.filter((data) => data.difficulty === "normal");
 
 //Данные карт
@@ -396,9 +398,6 @@ function deckData() {
   cardDeckButton.classList.add("card-deck-display");
   cardCounter.classList.remove("display");
   deck.classList.remove("display");
-
-  console.log(ancientActive);
-  console.log(buttonActive);
 
   if (ancientActive === "azathoth") {
     firstGreen.textContent = 1;
@@ -470,57 +469,105 @@ function deckData() {
     result = cardsData.filter((data) => data.difficulty === "hard");
   }
 
-  console.log(result);
-
-  const allGreen =
-    parseInt(firstGreen.textContent) +
-    parseInt(secondGreen.textContent) +
-    parseInt(thirdGreen.textContent);
-  const allBrown =
-    parseInt(firstBrown.textContent) +
-    parseInt(secondBrown.textContent) +
-    parseInt(thirdBrown.textContent);
-  const allBlue =
-    parseInt(firstBlue.textContent) +
-    parseInt(secondBlue.textContent) +
-    parseInt(thirdBlue.textContent);
-
-  console.log(allGreen, allBrown, allBlue);
+  usedCardNumber = {
+    green: [],
+    brown: [],
+    blue: [],
+  };
+  usedAdditionalCardNumber = {
+    green: [],
+    brown: [],
+    blue: [],
+  };
 }
 cardDeckButton.addEventListener("click", deckData);
 
 function getCard(cardDeck, stepColor) {
-  let cardNumber = Math.floor(Math.random() * (cardDeck.length - 0) + 0);
-  console.log(cardDeck[cardNumber].cardFace);
-  lastCard.style.backgroundImage = `url('${cardDeck[cardNumber].cardFace}')`;
-  stepColor.textContent = stepColor.textContent - 1;
+  const cardDeckColor = cardDeck[0].color;
+  if (usedCardNumber[cardDeckColor].length !== cardDeck.length) {
+    const cardNumber = Math.floor(Math.random() * (cardDeck.length - 0) + 0);
+    if (
+      usedCardNumber[cardDeckColor].find((el) => el === cardDeck[cardNumber].id)
+    ) {
+      getCard(cardDeck, stepColor);
+    } else {
+      lastCard.style.backgroundImage = `url('${cardDeck[cardNumber].cardFace}')`;
+      stepColor.textContent = stepColor.textContent - 1;
+      usedCardNumber[cardDeckColor] = [
+        ...usedCardNumber[cardDeckColor],
+        cardDeck[cardNumber].id,
+      ];
+    }
+  } else {
+    getAdditionalCard(stepColor, cardDeckColor);
+  }
+}
+
+function getAdditionalCard(stepColor, cardDeckColor) {
+  const normalCardDeck = cardsData
+    .filter((data) => data.difficulty === "normal")
+    .filter((card) => card.color === stepColor.classList[1]);
+  const cardNumber = Math.floor(
+    Math.random() * (normalCardDeck.length - 0) + 0
+  );
+  if (
+    usedAdditionalCardNumber[cardDeckColor].find(
+      (el) => el === normalCardDeck[cardNumber].id
+    )
+  ) {
+    getAdditionalCard(stepColor);
+  } else {
+    lastCard.style.backgroundImage = `url('${normalCardDeck[cardNumber].cardFace}')`;
+    stepColor.textContent = stepColor.textContent - 1;
+    usedAdditionalCardNumber[cardDeckColor] = [
+      ...usedAdditionalCardNumber[cardDeckColor],
+      normalCardDeck[cardNumber].id,
+    ];
+  }
 }
 
 function displayCard() {
-  const coloredGreen = result.filter((card) => card.color === "green");
-  const coloredBrown = result.filter((card) => card.color === "brown");
-  const coloredBlue = result.filter((card) => card.color === "blue");
-  if (firstGreen.textContent > 0) {
-    getCard(coloredGreen, firstGreen);
-  } else if (firstBrown.textContent > 0) {
-    getCard(coloredBrown, firstBrown);
-  } else if (firstBlue.textContent > 0) {
-    getCard(coloredBlue, firstBlue);
-  } else if (secondGreen.textContent > 0) {
-    getCard(coloredGreen, secondGreen);
-  } else if (secondBrown.textContent > 0) {
-    getCard(coloredBrown, secondBrown);
-  } else if (secondBlue.textContent > 0) {
-    getCard(coloredBlue, secondBlue);
-  } else if (thirdGreen.textContent > 0) {
-    getCard(coloredGreen, thirdGreen);
-  } else if (thirdBrown.textContent > 0) {
-    getCard(coloredBrown, thirdBrown);
-  } else if (thirdBlue.textContent > 0) {
-    getCard(coloredBlue, thirdBlue);
+  lastCard.classList.remove("display");
+
+  const firstStageRemainingCards =
+    parseInt(firstGreen.textContent) +
+    parseInt(firstBrown.textContent) +
+    parseInt(firstBlue.textContent);
+  const secondStageRemainingCards =
+    parseInt(secondGreen.textContent) +
+    parseInt(secondBrown.textContent) +
+    parseInt(secondBlue.textContent);
+  const thirdStageRemainingCards =
+    parseInt(thirdGreen.textContent) +
+    parseInt(thirdBrown.textContent) +
+    parseInt(thirdBlue.textContent);
+
+  if (firstStageRemainingCards > 0) {
+    getRandomColorCard(firstGreen, firstBrown, firstBlue);
+  } else if (secondStageRemainingCards > 0) {
+    getRandomColorCard(secondGreen, secondBrown, secondBlue);
+  } else if (thirdStageRemainingCards > 0) {
+    getRandomColorCard(thirdGreen, thirdBrown, thirdBlue);
   } else {
-    let data = confirm("Колода закончена");
+    let data = confirm("Колода собрана");
     console.log(data);
   }
 }
+
+function getRandomColorCard(green, brown, blue) {
+  const coloredGreen = result.filter((card) => card.color === "green");
+  const coloredBrown = result.filter((card) => card.color === "brown");
+  const coloredBlue = result.filter((card) => card.color === "blue");
+
+  const colors = [green, brown, blue];
+  const colorsDeck = [coloredGreen, coloredBrown, coloredBlue];
+  const colorNumber = Math.floor(Math.random() * colors.length);
+
+  if (colors[colorNumber].textContent > 0) {
+    getCard(colorsDeck[colorNumber], colors[colorNumber]);
+  } else {
+    getRandomColorCard(green, brown, blue);
+  }
+}
+
 deck.addEventListener("click", displayCard);
